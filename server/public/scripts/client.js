@@ -51,4 +51,24 @@ function onReady() {
         });
 }
 
+function createNewArtist(event){
+    event.preventDefault();
+    console.log("You hit submit");
+    let artistName = document.getElementById('artistName').value;
+    let artistBorn = document.getElementById('artistBorn').value;
+    let artistDied = document.getElementById('artistDied').value;
+
+    let newArtist = {
+        name: artistName,
+        born: artistBorn,
+        died: artistDied
+    }
+
+    axios({
+        method: 'POST',
+        url: '/artist',
+        data: newArtist
+    });
+}
+
 onReady();
