@@ -5,23 +5,15 @@ function onReady() {
         method: 'GET',
         url: '/artist'
     })
-        .then(function (response) {
+        .then(function(response) {
             // Code that will run on successful response
             // from the server.
             console.log(response);
             // quotesFromServer will be an Array of quotes
             let quotesFromServer = response.data;
-            let contentDiv = document.querySelector('#artistTableBody');
-            for (let artist of quotesFromServer) {
-                contentDiv.innerHTML += `
-                <tr>
-                    <td>${artist.name}</td>
-                    <td>${artist.born}</td>
-                    <td>${artist.died}</td>
-                </tr>
-            `;
+            renderArtists(quotesFromServer);
             }
-        }).catch(function (error) {
+        ).catch(function (error) {
             // Code that will run on any errors from the server.
             console.log(error);
             alert('Something bad happened! Check the console for more details.')
@@ -68,7 +60,36 @@ function createNewArtist(event){
         method: 'POST',
         url: '/artist',
         data: newArtist
+    }).then(function(response) {
+        // Code that will run on successful response
+        // from the server.
+        console.log(response);
+        // quotesFromServer will be an Array of quotes
+        let quotesFromServer = response.data;
+        renderArtists(quotesFromServer);
+        }
+    ).catch(function (error) {
+        // Code that will run on any errors from the server.
+        console.log(error);
+        alert('Something bad happened! Check the console for more details.')
     });
+}
+
+// I made a function to render the artists because now we need it
+// as a response to both the get and post requests
+function renderArtists(artists){
+    let contentDiv = document.querySelector('#artistTableBody');
+    contentDiv.innerHTML = '';
+    
+    for (let artist of artists) {
+        contentDiv.innerHTML += `
+        <tr>
+            <td>${artist.name}</td>
+            <td>${artist.born}</td>
+            <td>${artist.died}</td>
+        </tr>
+    `;
+    }
 }
 
 onReady();
